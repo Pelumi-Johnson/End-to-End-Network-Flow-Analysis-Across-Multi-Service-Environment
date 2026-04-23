@@ -128,8 +128,8 @@ ip address 200.1.2.1 255.255.255.0
 no shutdown
 
 ```
-Screenshot Placeholder Router1 Config
-![Router1 Config](./screenshots/router1-config.png)
+Router1 Config
+![Router1 Config](https://github.com/Pelumi-Johnson/End-to-End-Network-Flow-Analysis-Across-Multi-Service-Environment/blob/main/Screenshot%202026-04-23%20013258.png)
 
 ---
 
