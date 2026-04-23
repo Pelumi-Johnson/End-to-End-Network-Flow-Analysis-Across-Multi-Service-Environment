@@ -167,8 +167,10 @@ Example Assigned Addresses
 PC0 192.168.1.11
 PC1 192.168.2.11
 ```
-Screenshot Placeholder PC Config
-![PC Config](./screenshots/pc-config.png)
+PC Config
+![PC Config](https://github.com/Pelumi-Johnson/End-to-End-Network-Flow-Analysis-Across-Multi-Service-Environment/blob/main/Screenshot%202026-04-23%20013816.png)
+---
+![PC Config](https://github.com/Pelumi-Johnson/End-to-End-Network-Flow-Analysis-Across-Multi-Service-Environment/blob/main/Screenshot%202026-04-23%20013816.png)
 
 ---
 
