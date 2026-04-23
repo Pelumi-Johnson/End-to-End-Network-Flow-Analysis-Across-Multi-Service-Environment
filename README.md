@@ -93,7 +93,7 @@ default-router 192.168.2.1
 dns-server 200.1.1.10
 ```
 Screenshot Placeholder DHCP Config
-![DHCP Config](./screenshots/dhcp-config.png)
+![DHCP Config](https://github.com/Pelumi-Johnson/End-to-End-Network-Flow-Analysis-Across-Multi-Service-Environment/blob/main/Screenshot%202026-04-23%20012450.png)
 
 ---
 
