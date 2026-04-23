@@ -150,6 +150,8 @@ Default Gateway 200.1.2.1
 ```
 Server Config
 ![Server Config](https://github.com/Pelumi-Johnson/End-to-End-Network-Flow-Analysis-Across-Multi-Service-Environment/blob/main/Screenshot%202026-04-23%20013702.png)
+---
+![Server Config](https://github.com/Pelumi-Johnson/End-to-End-Network-Flow-Analysis-Across-Multi-Service-Environment/blob/main/Screenshot%202026-04-23%20013713.png)
 
 ---
 
