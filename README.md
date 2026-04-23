@@ -26,8 +26,8 @@ Topology Design
 Logical Flow
 PC to Switch to Router0 to Router1 to Server and back
 
-Screenshot Placeholder Topology
-![Network Topology](./screenshots/topology.png)
+Topology
+![Network Topology](https://github.com/Pelumi-Johnson/End-to-End-Network-Flow-Analysis-Across-Multi-Service-Environment/blob/main/Screenshot%202026-04-23%20010420.png)
 
 ## Configuration
 
