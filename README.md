@@ -1,30 +1,30 @@
 # End to End Network Flow Analysis Across Multi Service Environment
 
 ## Overview
-Designed and validated a complete end to end network communication flow integrating VLAN segmentation DNS resolution routing NAT and switching. Traced a full request lifecycle from hostname query to server response demonstrating how multiple network services operate together as a unified system.
+Designed and validated a complete end to end network communication flow integrating VLAN segmentation DHCP DNS routing NAT and switching. Traced a full request lifecycle from hostname query to server response demonstrating how multiple network services operate together as a unified system.
 
 ## Objective
-Implemented and analyzed full packet flow across segmented VLAN networks to verify how DNS routing NAT and switching interact to deliver successful communication between internal hosts and external server.
-```
+Implemented and analyzed full packet flow across segmented VLAN networks to verify how DHCP DNS routing NAT and switching interact to deliver successful communication between internal hosts and external server.
+
 ## Network Setup
 Devices Used
 1 Cisco 2960 Switch
-1 Cisco 1941 Router
+2 Cisco 1941 Routers
 1 DNS Server
 1 Web Server
 2 End Devices PCs
-```
+
 Topology Design
-- PC0 assigned to VLAN 10 subnet 192.168.1.0
-- PC1 assigned to VLAN 20 subnet 192.168.2.0
-- Switch configured with VLAN segmentation
-- Router configured using Router on a Stick for inter VLAN routing
-- Router connected to external network simulating ISP
-- DNS server configured for domain resolution
-- Web server configured to respond to requests
+PC0 assigned to VLAN 10 subnet 192.168.1.0
+PC1 assigned to VLAN 20 subnet 192.168.2.0
+Switch configured with VLAN segmentation
+Router0 configured using Router on a Stick for inter VLAN routing DHCP and NAT
+Router1 configured to simulate ISP side routing
+DNS server configured for domain resolution
+Web server configured to respond to requests
 
 Logical Flow
-PC to Switch to Router to ISP to Server and back
+PC to Switch to Router0 to Router1 to Server and back
 
 Screenshot Placeholder Topology
 ![Network Topology](./screenshots/topology.png)
@@ -59,7 +59,10 @@ Screenshot Placeholder VLAN Config
 
 ---
 
-### Router on a Stick Configuration
+### Router0 Inter VLAN Routing Configuration
+
+interface gigabitEthernet 0/0
+no shutdown
 
 interface gigabitEthernet 0/0.10
 encapsulation dot1Q 10
@@ -69,54 +72,100 @@ interface gigabitEthernet 0/0.20
 encapsulation dot1Q 20
 ip address 192.168.2.1 255.255.255.0
 
-interface gigabitEthernet 0/0
+Screenshot Placeholder Router0 VLAN Config
+![Router0 VLAN Config](./screenshots/router0-vlan-config.png)
+
+---
+
+### Router0 DHCP Configuration
+
+ip dhcp excluded-address 192.168.1.1 192.168.1.10
+ip dhcp excluded-address 192.168.2.1 192.168.2.10
+
+ip dhcp pool VLAN10
+network 192.168.1.0 255.255.255.0
+default-router 192.168.1.1
+dns-server 200.1.1.10
+
+ip dhcp pool VLAN20
+network 192.168.2.0 255.255.255.0
+default-router 192.168.2.1
+dns-server 200.1.1.10
+
+Screenshot Placeholder DHCP Config
+![DHCP Config](./screenshots/dhcp-config.png)
+
+---
+
+### Router0 NAT and Outside Interface Configuration
+
+interface gigabitEthernet 0/1
+ip address 200.1.1.1 255.255.255.0
+ip nat outside
 no shutdown
-
-Screenshot Placeholder Router VLAN Config
-![Router VLAN Config](./screenshots/router-vlan-config.png)
-
----
-
-### DNS Configuration
-Configured DNS server to resolve domain name to web server IP
-
-Example
-mysite.com mapped to 200.1.1.10
-
-Screenshot Placeholder DNS Config
-![DNS Config](./screenshots/dns-config.png)
-
----
-
-### NAT Configuration
-
-access-list 1 permit 192.168.1.0 0.0.0.255
-access-list 1 permit 192.168.2.0 0.0.0.255
 
 interface gigabitEthernet 0/0
 ip nat inside
 
-interface gigabitEthernet 0/1
-ip nat outside
+access-list 1 permit 192.168.1.0 0.0.0.255
+access-list 1 permit 192.168.2.0 0.0.0.255
 
 ip nat inside source list 1 interface gigabitEthernet 0/1 overload
 
-Screenshot Placeholder NAT Config
-![NAT Config](./screenshots/nat-config.png)
+Screenshot Placeholder Router0 NAT Config
+![Router0 NAT Config](./screenshots/router0-nat-config.png)
+
+---
+
+### Router1 ISP Side Configuration
+
+interface gigabitEthernet 0/0
+ip address 200.1.1.2 255.255.255.0
+no shutdown
+
+interface gigabitEthernet 0/1
+ip address 200.1.2.1 255.255.255.0
+no shutdown
+
+ip route 192.168.1.0 255.255.255.0 200.1.1.1
+ip route 192.168.2.0 255.255.255.0 200.1.1.1
+
+Screenshot Placeholder Router1 Config
+![Router1 Config](./screenshots/router1-config.png)
+
+---
+
+### DNS and Web Server Configuration
+
+DNS Server
+IP Address 200.1.2.10
+Subnet Mask 255.255.255.0
+Default Gateway 200.1.2.1
+
+DNS Record
+mysite.com mapped to 200.1.2.20
+
+Web Server
+IP Address 200.1.2.20
+Subnet Mask 255.255.255.0
+Default Gateway 200.1.2.1
+
+Screenshot Placeholder Server Config
+![Server Config](./screenshots/server-config.png)
 
 ---
 
 ### End Device Configuration
 
 PC0 VLAN 10
-IP 192.168.1.10
-Subnet Mask 255.255.255.0
-Default Gateway 192.168.1.1
+Configured to receive IP address dynamically from DHCP
 
 PC1 VLAN 20
-IP 192.168.2.10
-Subnet Mask 255.255.255.0
-Default Gateway 192.168.2.1
+Configured to receive IP address dynamically from DHCP
+
+Example Assigned Addresses
+PC0 192.168.1.11
+PC1 192.168.2.11
 
 Screenshot Placeholder PC Config
 ![PC Config](./screenshots/pc-config.png)
@@ -125,54 +174,66 @@ Screenshot Placeholder PC Config
 
 ## End to End Flow Validation
 
-### Step 1 DNS Resolution
+### Step 1 DHCP Assignment
+Validated that hosts in both VLANs received correct IP address default gateway and DNS server information from Router0
+
+Screenshot Placeholder DHCP Validation
+![DHCP Validation](./screenshots/dhcp-validation.png)
+
+---
+
+### Step 2 DNS Resolution
 
 ping mysite.com
 
 Observation
-Domain name resolved to IP address through DNS
+Domain name resolved to web server IP through DNS
 
 Screenshot Placeholder DNS Resolution
 ![DNS Resolution](./screenshots/dns-resolution.png)
 
 ---
 
-### Step 2 Inter VLAN Routing
+### Step 3 Inter VLAN and Gateway Forwarding
 
-Traffic from VLAN 10 routed through router to reach external network
+Traffic from internal VLAN host forwarded to Router0 for external communication
 
 Observation
-Router handled communication between VLANs and forwarded traffic
+Router0 processed gateway decision and prepared packet for outbound translation
 
-Screenshot Placeholder Inter VLAN Routing
-![Inter VLAN Routing](./screenshots/inter-vlan.png)
+Screenshot Placeholder Gateway Forwarding
+![Gateway Forwarding](./screenshots/gateway-forwarding.png)
 
 ---
 
-### Step 3 NAT Translation
+### Step 4 NAT Translation
 
-Private IP translated to public IP before leaving network
+Private IP translated to public IP before leaving internal network
 
 Example
-192.168.1.10 translated to 200.1.1.1
+192.168.1.11 translated to 200.1.1.1
 
 Screenshot Placeholder NAT Translation
 ![NAT Translation](./screenshots/nat-translation.png)
 
 ---
 
-### Step 4 External Communication
+### Step 5 External Routing Through Router1
 
-Traffic reached external server and response returned
+Traffic traversed Router1 toward DNS or web server subnet
 
-Screenshot Placeholder External Communication
-![External Communication](./screenshots/external.png)
+Observation
+Router1 forwarded traffic between 200.1.1.0 and 200.1.2.0 networks
+
+Screenshot Placeholder Router1 Forwarding
+![Router1 Forwarding](./screenshots/router1-forwarding.png)
 
 ---
 
-### Step 5 Reverse NAT and Final Delivery
+### Step 6 Server Response and Reverse NAT
 
-Router translated response back to internal IP and delivered to correct VLAN host
+Server returned response through Router1 back to Router0
+Router0 translated destination back to internal host and delivered packet to correct VLAN
 
 Screenshot Placeholder Final Delivery
 ![Final Delivery](./screenshots/final-delivery.png)
@@ -184,17 +245,11 @@ Screenshot Placeholder Final Delivery
 ### DNS Failure
 Name resolution failed while direct IP communication remained functional
 
----
-
 ### NAT Failure
 Private IP unable to reach external network
 
----
-
 ### Gateway Failure
 Traffic could not leave local VLAN
-
----
 
 ### VLAN Misconfiguration
 Device unable to communicate within or across VLANs
@@ -202,12 +257,13 @@ Device unable to communicate within or across VLANs
 ---
 
 ## Key Concepts Applied
-End to end packet flow across VLAN segmented networks
+VLAN segmentation across 192.168.1.0 and 192.168.2.0 networks
 Router on a Stick for inter VLAN communication
-DNS resolution for domain translation
+DHCP service delivery from Router0 to multiple VLANs
 NAT overload for private to public translation
-Switching for local VLAN delivery
-Systematic troubleshooting based on flow analysis
+ISP side routing with Router1 across external networks
+DNS resolution for domain translation
+Systematic end to end flow analysis
 
 ## Outcome
-Validated full communication lifecycle across segmented VLAN environment integrating DNS routing NAT and switching. Demonstrated how traffic moves across multiple layers and how each component contributes to successful delivery. Established a system level understanding required for real world network design and troubleshooting.
+Validated full communication lifecycle across segmented VLAN environment integrating DHCP DNS routing NAT and switching. Demonstrated how internal hosts obtained addressing automatically, resolved external resources by name, traversed translated paths through Router0 and Router1, and successfully reached external services. Established a complete multi service topology reflecting real world enterprise traffic flow.
