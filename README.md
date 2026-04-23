@@ -55,7 +55,7 @@ switchport mode trunk
 exit
 ```
 Screenshot Placeholder VLAN Config
-![VLAN Config](./screenshots/vlan-config.png)
+![VLAN Config](https://github.com/Pelumi-Johnson/End-to-End-Network-Flow-Analysis-Across-Multi-Service-Environment/blob/main/Screenshot%202026-04-23%20010420.png)
 
 ---
 
