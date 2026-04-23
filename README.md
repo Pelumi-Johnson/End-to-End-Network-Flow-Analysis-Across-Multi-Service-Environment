@@ -170,7 +170,7 @@ PC1 192.168.2.11
 PC Config
 ![PC Config](https://github.com/Pelumi-Johnson/End-to-End-Network-Flow-Analysis-Across-Multi-Service-Environment/blob/main/Screenshot%202026-04-23%20013816.png)
 ---
-![PC Config](https://github.com/Pelumi-Johnson/End-to-End-Network-Flow-Analysis-Across-Multi-Service-Environment/blob/main/Screenshot%202026-04-23%20013816.png)
+![PC Config](https://github.com/Pelumi-Johnson/End-to-End-Network-Flow-Analysis-Across-Multi-Service-Environment/blob/main/Screenshot%202026-04-23%20013844.png)
 
 ---
 
