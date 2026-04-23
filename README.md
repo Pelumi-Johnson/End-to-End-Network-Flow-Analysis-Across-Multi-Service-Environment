@@ -181,7 +181,7 @@ ping pelumijohnson.com
 Observation
 Domain name resolved to web server IP through DNS
 
-Screenshot Placeholder DNS Resolution
+DNS Resolution
 ![DNS Resolution](https://github.com/Pelumi-Johnson/End-to-End-Network-Flow-Analysis-Across-Multi-Service-Environment/blob/main/Screenshot%202026-04-23%20015004.png)
 
 ---
@@ -193,8 +193,8 @@ Traffic from internal VLAN host forwarded to Router0 for external communication
 Observation
 Router0 processed gateway decision and prepared packet for outbound translation
 
-Screenshot Placeholder Gateway Forwarding
-![Gateway Forwarding](./screenshots/gateway-forwarding.png)
+Gateway Forwarding
+![Gateway Forwarding](https://github.com/Pelumi-Johnson/End-to-End-Network-Flow-Analysis-Across-Multi-Service-Environment/blob/main/Animation.gif)
 
 ---
 
