@@ -154,7 +154,7 @@ Screenshot Placeholder Server Config
 ---
 
 ### End Device Configuration
-
+```
 PC0 VLAN 10
 Configured to receive IP address dynamically from DHCP
 
@@ -164,7 +164,7 @@ Configured to receive IP address dynamically from DHCP
 Example Assigned Addresses
 PC0 192.168.1.11
 PC1 192.168.2.11
-
+```
 Screenshot Placeholder PC Config
 ![PC Config](./screenshots/pc-config.png)
 
@@ -172,7 +172,7 @@ Screenshot Placeholder PC Config
 
 ### Step 2 DNS Resolution
 
-ping mysite.com
+ping pelumijohnson.com
 
 Observation
 Domain name resolved to web server IP through DNS
@@ -194,64 +194,14 @@ Screenshot Placeholder Gateway Forwarding
 
 ---
 
-### Step 4 NAT Translation
-
-Private IP translated to public IP before leaving internal network
-
-Example
-192.168.1.11 translated to 200.1.1.1
-
-Screenshot Placeholder NAT Translation
-![NAT Translation](./screenshots/nat-translation.png)
-
----
-
-### Step 5 External Routing Through Router1
-
-Traffic traversed Router1 toward DNS or web server subnet
-
-Observation
-Router1 forwarded traffic between 200.1.1.0 and 200.1.2.0 networks
-
-Screenshot Placeholder Router1 Forwarding
-![Router1 Forwarding](./screenshots/router1-forwarding.png)
-
----
-
-### Step 6 Server Response and Reverse NAT
-
-Server returned response through Router1 back to Router0
-Router0 translated destination back to internal host and delivered packet to correct VLAN
-
-Screenshot Placeholder Final Delivery
-![Final Delivery](./screenshots/final-delivery.png)
-
----
-
-## Failure Testing
-
-### DNS Failure
-Name resolution failed while direct IP communication remained functional
-
-### NAT Failure
-Private IP unable to reach external network
-
-### Gateway Failure
-Traffic could not leave local VLAN
-
-### VLAN Misconfiguration
-Device unable to communicate within or across VLANs
-
----
-
 ## Key Concepts Applied
-VLAN segmentation across 192.168.1.0 and 192.168.2.0 networks
-Router on a Stick for inter VLAN communication
-DHCP service delivery from Router0 to multiple VLANs
-NAT overload for private to public translation
-ISP side routing with Router1 across external networks
-DNS resolution for domain translation
-Systematic end to end flow analysis
+- VLAN segmentation across 192.168.1.0 and 192.168.2.0 networks
+- Router on a Stick for inter VLAN communication
+- DHCP service delivery from Router0 to multiple VLANs
+- NAT overload for private to public translation
+- ISP side routing with Router1 across external networks
+- DNS resolution for domain translation
+- Systematic end to end flow analysis
 
 ## Outcome
 Validated full communication lifecycle across segmented VLAN environment integrating DHCP DNS routing NAT and switching. Demonstrated how internal hosts obtained addressing automatically, resolved external resources by name, traversed translated paths through Router0 and Router1, and successfully reached external services. Established a complete multi service topology reflecting real world enterprise traffic flow.
