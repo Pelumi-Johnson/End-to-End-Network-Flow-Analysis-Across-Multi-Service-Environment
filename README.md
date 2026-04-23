@@ -186,12 +186,15 @@ DNS Resolution
 
 ---
 
-### Step 3 Inter VLAN and Gateway Forwarding
+Step 3 Inter VLAN and Gateway Forwarding
 
 Traffic from internal VLAN host forwarded to Router0 for external communication
 
 Observation
-Router0 processed gateway decision and prepared packet for outbound translation
+Router0 processed the gateway decision and prepared the packet for outbound translation
+
+Packet Flow Visualization
+Simulated packet movement showing traffic leaving the PC, reaching the gateway, and being forwarded toward the DNS server
 
 Gateway Forwarding
 ![Gateway Forwarding](https://github.com/Pelumi-Johnson/End-to-End-Network-Flow-Analysis-Across-Multi-Service-Environment/blob/main/Animation.gif)
