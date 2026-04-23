@@ -182,7 +182,7 @@ Observation
 Domain name resolved to web server IP through DNS
 
 Screenshot Placeholder DNS Resolution
-![DNS Resolution](./screenshots/dns-resolution.png)
+![DNS Resolution](https://github.com/Pelumi-Johnson/End-to-End-Network-Flow-Analysis-Across-Multi-Service-Environment/blob/main/Screenshot%202026-04-23%20015004.png)
 
 ---
 
