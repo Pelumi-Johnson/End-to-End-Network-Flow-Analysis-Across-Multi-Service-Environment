@@ -5,7 +5,7 @@ Designed and validated a complete end to end network communication flow integrat
 
 ## Objective
 Implemented and analyzed full packet flow across segmented VLAN networks to verify how DHCP DNS routing NAT and switching interact to deliver successful communication between internal hosts and external server.
-
+```
 ## Network Setup
 Devices Used
 1 Cisco 2960 Switch
@@ -13,15 +13,15 @@ Devices Used
 1 DNS Server
 1 Web Server
 2 End Devices PCs
-
+```
 Topology Design
-PC0 assigned to VLAN 10 subnet 192.168.1.0
-PC1 assigned to VLAN 20 subnet 192.168.2.0
-Switch configured with VLAN segmentation
-Router0 configured using Router on a Stick for inter VLAN routing DHCP and NAT
-Router1 configured to simulate ISP side routing
-DNS server configured for domain resolution
-Web server configured to respond to requests
+- PC0 assigned to VLAN 10 subnet 192.168.1.0
+- PC1 assigned to VLAN 20 subnet 192.168.2.0
+- Switch configured with VLAN segmentation
+- Router0 configured using Router on a Stick for inter VLAN routing DHCP and NAT
+- Router1 configured to simulate ISP side routing
+- DNS server configured for domain resolution
+- Web server configured to respond to requests
 
 Logical Flow
 PC to Switch to Router0 to Router1 to Server and back
@@ -32,7 +32,7 @@ Screenshot Placeholder Topology
 ## Configuration
 
 ### VLAN Configuration
-
+```
 enable
 configure terminal
 
@@ -53,14 +53,14 @@ switchport access vlan 20
 interface fastEthernet 0/24
 switchport mode trunk
 exit
-
+```
 Screenshot Placeholder VLAN Config
 ![VLAN Config](./screenshots/vlan-config.png)
 
 ---
 
 ### Router0 Inter VLAN Routing Configuration
-
+```
 interface gigabitEthernet 0/0
 no shutdown
 
@@ -71,34 +71,34 @@ ip address 192.168.1.1 255.255.255.0
 interface gigabitEthernet 0/0.20
 encapsulation dot1Q 20
 ip address 192.168.2.1 255.255.255.0
-
+```
 Screenshot Placeholder Router0 VLAN Config
 ![Router0 VLAN Config](./screenshots/router0-vlan-config.png)
 
 ---
 
 ### Router0 DHCP Configuration
-
+```
 ip dhcp excluded-address 192.168.1.1 192.168.1.10
 ip dhcp excluded-address 192.168.2.1 192.168.2.10
 
-ip dhcp pool VLAN10
+ip dhcp pool HR
 network 192.168.1.0 255.255.255.0
 default-router 192.168.1.1
 dns-server 200.1.1.10
 
-ip dhcp pool VLAN20
+ip dhcp pool IT
 network 192.168.2.0 255.255.255.0
 default-router 192.168.2.1
 dns-server 200.1.1.10
-
+```
 Screenshot Placeholder DHCP Config
 ![DHCP Config](./screenshots/dhcp-config.png)
 
 ---
 
 ### Router0 NAT and Outside Interface Configuration
-
+```
 interface gigabitEthernet 0/1
 ip address 200.1.1.1 255.255.255.0
 ip nat outside
@@ -111,14 +111,14 @@ access-list 1 permit 192.168.1.0 0.0.0.255
 access-list 1 permit 192.168.2.0 0.0.0.255
 
 ip nat inside source list 1 interface gigabitEthernet 0/1 overload
-
+```
 Screenshot Placeholder Router0 NAT Config
 ![Router0 NAT Config](./screenshots/router0-nat-config.png)
 
 ---
 
 ### Router1 ISP Side Configuration
-
+```
 interface gigabitEthernet 0/0
 ip address 200.1.1.2 255.255.255.0
 no shutdown
@@ -127,29 +127,27 @@ interface gigabitEthernet 0/1
 ip address 200.1.2.1 255.255.255.0
 no shutdown
 
-ip route 192.168.1.0 255.255.255.0 200.1.1.1
-ip route 192.168.2.0 255.255.255.0 200.1.1.1
-
+```
 Screenshot Placeholder Router1 Config
 ![Router1 Config](./screenshots/router1-config.png)
 
 ---
 
 ### DNS and Web Server Configuration
-
+```
 DNS Server
 IP Address 200.1.2.10
 Subnet Mask 255.255.255.0
 Default Gateway 200.1.2.1
-
+```
 DNS Record
-mysite.com mapped to 200.1.2.20
-
+pelumijohnson.com mapped to 200.1.2.10
+```
 Web Server
-IP Address 200.1.2.20
+IP Address 200.1.2.10
 Subnet Mask 255.255.255.0
 Default Gateway 200.1.2.1
-
+```
 Screenshot Placeholder Server Config
 ![Server Config](./screenshots/server-config.png)
 
@@ -169,16 +167,6 @@ PC1 192.168.2.11
 
 Screenshot Placeholder PC Config
 ![PC Config](./screenshots/pc-config.png)
-
----
-
-## End to End Flow Validation
-
-### Step 1 DHCP Assignment
-Validated that hosts in both VLANs received correct IP address default gateway and DNS server information from Router0
-
-Screenshot Placeholder DHCP Validation
-![DHCP Validation](./screenshots/dhcp-validation.png)
 
 ---
 
