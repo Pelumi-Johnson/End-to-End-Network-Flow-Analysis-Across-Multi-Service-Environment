@@ -72,8 +72,8 @@ interface gigabitEthernet 0/0.20
 encapsulation dot1Q 20
 ip address 192.168.2.1 255.255.255.0
 ```
-Screenshot Placeholder Router0 VLAN Config
-![Router0 VLAN Config](./screenshots/router0-vlan-config.png)
+Router0 VLAN Config
+![Router0 VLAN Config](https://github.com/Pelumi-Johnson/End-to-End-Network-Flow-Analysis-Across-Multi-Service-Environment/blob/main/Screenshot%202026-04-23%20011348.png)
 
 ---
 
